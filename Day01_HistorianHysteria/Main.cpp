@@ -18,20 +18,17 @@ int similarityScore(vector<int>& sortedNums1, vector<int> sortedNums2) {
     int i = 0, j = 0, similarityScore = 0;
     while (i < sortedNums1.size() && j < sortedNums2.size()) {
         const int value = sortedNums1[i];
-        while (j < sortedNums2.size() && sortedNums2[j] < value) {
-            j++;
+        for (; j < sortedNums2.size() && sortedNums2[j] < value; j++) {
         }
 
         int nums1Occurrences = 0;
-        while (i < sortedNums1.size() && sortedNums1[i] == value) {
+        for (; i < sortedNums1.size() && sortedNums1[i] == value; i++) {
             nums1Occurrences++;
-            i++;
         }
 
         int nums2Occurrences = 0;
-        while (j < sortedNums2.size() && sortedNums2[j] == value) {
+        for (; j < sortedNums2.size() && sortedNums2[j] == value; j++) {
             nums2Occurrences++;
-            j++;
         }
 
         similarityScore += value * nums1Occurrences * nums2Occurrences;
