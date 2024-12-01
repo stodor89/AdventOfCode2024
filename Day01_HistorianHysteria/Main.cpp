@@ -45,16 +45,18 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    ifstream file(argv[1]);
-    if (!file) {
-        cout << "Could not open " << argv[1] << endl;
-        return 1;
-    }
+    {
+        ifstream file(argv[1]);
+        if (!file) {
+            cout << "Could not open " << argv[1] << endl;
+            return 1;
+        }
 
-    int loc1, loc2;
-    while (file >> loc1 >> loc2) {
-        locations1.push_back(loc1);
-        locations2.push_back(loc2);
+        int loc1, loc2;
+        while (file >> loc1 >> loc2) {
+            locations1.push_back(loc1);
+            locations2.push_back(loc2);
+        }
     }
 
     sort(locations1.begin(), locations1.end());
