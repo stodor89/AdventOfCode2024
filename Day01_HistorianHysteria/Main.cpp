@@ -22,16 +22,16 @@ int similarityScore(vector<int>& sortedNums1, vector<int> sortedNums2) {
             j++;
         }
 
-        int nums2Occurrences = 0;
-        while (j < sortedNums2.size() && sortedNums2[j] == value) {
-            nums2Occurrences++;
-            j++;
-        }
-
         int nums1Occurrences = 0;
         while (i < sortedNums1.size() && sortedNums1[i] == value) {
             nums1Occurrences++;
             i++;
+        }
+
+        int nums2Occurrences = 0;
+        while (j < sortedNums2.size() && sortedNums2[j] == value) {
+            nums2Occurrences++;
+            j++;
         }
 
         similarityScore += value * nums1Occurrences * nums2Occurrences;
