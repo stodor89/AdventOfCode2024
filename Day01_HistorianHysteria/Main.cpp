@@ -38,13 +38,12 @@ int similarityScore(vector<int>& sortedNums1, vector<int> sortedNums2) {
 }
 
 int main(int argc, char* argv[]) {
-    vector<int> locations1, locations2;
-
     if (argc != 2) {
         cout << "Usage: " << argv[0] << " <filename>" << endl;
         return 0;
     }
 
+    vector<int> locations1, locations2;
     {
         ifstream file(argv[1]);
         if (!file) {
