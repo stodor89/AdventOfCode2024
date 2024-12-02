@@ -15,8 +15,8 @@ constexpr int DIRECTION_DOWN = -1;
 void printReport(const vector<int>& report, bool safe);
 void testIsSafelyChanging();
 
-bool isSafeChange(int val1, int val2, int safetyMargin, int diffMult) {
-    const int diff = (val2 - val1) * diffMult;
+bool isSafeChange(int val1, int val2, int safetyMargin, int direction) {
+    const int diff = (val2 - val1) * direction;
     return diff > 0 && diff <= safetyMargin;
 }
 
