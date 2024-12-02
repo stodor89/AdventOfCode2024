@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#include "Utilities.h"
+
 using namespace std;
 
 int totalDistance(const vector<int>& sortedNums1, const vector<int>& sortedNums2) {
@@ -43,24 +45,17 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    vector<int> locations1, locations2;
-    {
-        ifstream file(argv[1]);
-        if (!file) {
-            cout << "Could not open " << argv[1] << endl;
-            return 1;
-        }
-
-        int loc1, loc2;
-        while (file >> loc1 >> loc2) {
-            locations1.push_back(loc1);
-            locations2.push_back(loc2);
-        }
+    vector<vector<int>> locations;
+    readColumnsFromFile(argv[1], locations);
+    if (locations.size() != 2) {
+        cout << "File " << argv[1] << "should contain 2 columns of numbers." << endl;
+        return 1;
     }
 
-    sort(locations1.begin(), locations1.end());
-    sort(locations2.begin(), locations2.end());
+    for (auto&& vec : locations) {
+        sort(vec.begin(), vec.end());
+    }
 
-    cout << "total distance: " << totalDistance(locations1, locations2) << endl
-        << "similarity score: " << similarityScore(locations1, locations2) << endl;
+    cout << "total distance: " << totalDistance(locations[0], locations[1]) << endl
+        << "similarity score: " << similarityScore(locations[0], locations[1]) << endl;
 }
