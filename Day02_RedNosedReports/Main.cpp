@@ -13,27 +13,27 @@ constexpr int DIRECTION_DOWN = -1;
 
 // Helpers
 void printReport(const vector<int>& report, bool safe);
-void testIsSafelyChanging();
+void testIsSafeReport();
 
-bool isSafeChange(int val1, int val2, int safetyMargin, int direction) {
+bool isSafeDelta(int val1, int val2, int safetyMargin, int direction) {
     const int diff = (val2 - val1) * direction;
     return diff > 0 && diff <= safetyMargin;
 }
 
-bool isSafelyChanging(const vector<int>& report, int safetyMargin, int direction, bool allowBadValue) {
+bool isSafeReport(const vector<int>& report, int safetyMargin, int direction, bool allowBadValue) {
     for (int i = 1; i < report.size(); i++) {
-        if (!isSafeChange(report[i - 1], report[i], safetyMargin, direction)) {
+        if (!isSafeDelta(report[i - 1], report[i], safetyMargin, direction)) {
             if (!allowBadValue) {
                 return false;
             }
             // allow current (bad) value if prev-to-next is within safety margin
-            if ((i == report.size() - 1) || isSafeChange(report[i - 1], report[i + 1], safetyMargin, direction)) {
+            if ((i == report.size() - 1) || isSafeDelta(report[i - 1], report[i + 1], safetyMargin, direction)) {
                 allowBadValue = false;
                 i++;
                 continue;
             }
             // special case: allow first (bad) if current-to-next is within safety margin  
-            if ((i == 1) && isSafeChange(report[i], report[i + 1], safetyMargin, direction)) {
+            if ((i == 1) && isSafeDelta(report[i], report[i + 1], safetyMargin, direction)) {
                 allowBadValue = false;
                 continue;
             }
@@ -47,8 +47,8 @@ bool isSafelyChanging(const vector<int>& report, int safetyMargin, int direction
 int countSafeReports(const vector<vector<int>>& reports, int safetyMargin, bool allowBadValue) {
     int safeReportsCount = 0;
     for (auto&& report : reports) {
-        const bool safe = isSafelyChanging(report, safetyMargin, DIRECTION_UP, allowBadValue)
-            || isSafelyChanging(report, safetyMargin, DIRECTION_DOWN, allowBadValue);
+        const bool safe = isSafeReport(report, safetyMargin, DIRECTION_UP, allowBadValue)
+            || isSafeReport(report, safetyMargin, DIRECTION_DOWN, allowBadValue);
         //printReport(report, safe);
         safeReportsCount += safe;
     }
@@ -58,7 +58,7 @@ int countSafeReports(const vector<vector<int>>& reports, int safetyMargin, bool 
 }
 
 int main(int argc, char* argv[]) {
-    //testIsSafelyChanging();
+    //testIsSafeReport();
 
     if (argc != 2) {
         cout << "Usage: " << argv[0] << " <filename>" << endl;
@@ -85,9 +85,9 @@ void printReport(const vector<int>& report, bool safe) {
     cout << str << endl;
 }
 
-void testIsSafelyChanging() {
+void testIsSafeReport() {
     auto checkResult = [](const vector<int>& report, bool expected, int direction) {
-        bool actual = isSafelyChanging(report, SAFE_REPORT_MAX_DELTA, direction, true);
+        bool actual = isSafeReport(report, SAFE_REPORT_MAX_DELTA, direction, true);
         if (actual != expected) {
             cout << "Test failed: " << convertToString(report) << " should be "
                 << (expected ? "safe" : "unsafe") << endl;
