@@ -7,7 +7,7 @@
 
 using namespace std;
 
-constexpr int SAFE_REPORT_MAX_DELTA = 3;
+constexpr int SAFE_REPORT_MAX_DELTA = 3; // not great, not terrible
 constexpr int DIRECTION_UP = 1;
 constexpr int DIRECTION_DOWN = -1;
 
@@ -15,28 +15,31 @@ constexpr int DIRECTION_DOWN = -1;
 void printReport(const vector<int>& report, bool safe);
 void testIsSafeReport();
 
-bool isSafeDelta(int val1, int val2, int safetyMargin, int direction) {
+bool isDeltaSafe(int val1, int val2, int direction) {
     const int diff = (val2 - val1) * direction;
-    return diff > 0 && diff <= safetyMargin;
+    return diff > 0 && diff <= SAFE_REPORT_MAX_DELTA;
 }
 
-bool isSafeReport(const vector<int>& report, int safetyMargin, int direction, bool allowBadValue) {
+bool isReportSafe(const vector<int>& report, int direction, bool allowBadValue) {
     for (int i = 1; i < report.size(); i++) {
-        if (!isSafeDelta(report[i - 1], report[i], safetyMargin, direction)) {
+        if (!isDeltaSafe(report[i - 1], report[i], direction)) {
             if (!allowBadValue) {
                 return false;
             }
+
             // allow current (bad) value if prev-to-next is within safety margin
-            if ((i == report.size() - 1) || isSafeDelta(report[i - 1], report[i + 1], safetyMargin, direction)) {
+            if ((i == report.size() - 1) || isDeltaSafe(report[i - 1], report[i + 1], direction)) {
                 allowBadValue = false;
                 i++;
                 continue;
             }
-            // special case: allow first (bad) if current-to-next is within safety margin  
-            if ((i == 1) && isSafeDelta(report[i], report[i + 1], safetyMargin, direction)) {
+
+            // special case: allow #0 (bad) if #1-to-#2 is within safety margin
+            if ((i == 1) && isDeltaSafe(report[1], report[2], direction)) {
                 allowBadValue = false;
                 continue;
             }
+
             return false;
         }
     }
@@ -44,11 +47,11 @@ bool isSafeReport(const vector<int>& report, int safetyMargin, int direction, bo
     return true;
 }
 
-int countSafeReports(const vector<vector<int>>& reports, int safetyMargin, bool allowBadValue) {
+int countSafeReports(const vector<vector<int>>& reports, bool allowBadValue) {
     int safeReportsCount = 0;
     for (auto&& report : reports) {
-        const bool safe = isSafeReport(report, safetyMargin, DIRECTION_UP, allowBadValue)
-            || isSafeReport(report, safetyMargin, DIRECTION_DOWN, allowBadValue);
+        const bool safe = isReportSafe(report, DIRECTION_UP, allowBadValue)
+            || isReportSafe(report, DIRECTION_DOWN, allowBadValue);
         //printReport(report, safe);
         safeReportsCount += safe;
     }
@@ -68,10 +71,8 @@ int main(int argc, char* argv[]) {
     vector<vector<int>> reports;
     readRowsFromFile(argv[1], reports);
 
-    cout << "safe reports (0 bad levels): " << countSafeReports(reports, SAFE_REPORT_MAX_DELTA, false)
-        << endl
-        << "safe reports (0 or 1 bad levels): " << countSafeReports(reports, SAFE_REPORT_MAX_DELTA, true)
-        << endl;
+    cout << "safe reports (0 bad levels): " << countSafeReports(reports, false) << endl
+        << "safe reports (0 or 1 bad levels): " << countSafeReports(reports, true) << endl;
 }
 
 
@@ -86,15 +87,14 @@ void printReport(const vector<int>& report, bool safe) {
 }
 
 void testIsSafeReport() {
-    auto checkResult = [](const vector<int>& report, bool expected, int direction) {
-        bool actual = isSafeReport(report, SAFE_REPORT_MAX_DELTA, direction, true);
+    auto checkResult = [](const vector<int>& report, int direction, bool expected) {
+        bool actual = isReportSafe(report, direction, true);
         if (actual != expected) {
             cout << "Test failed: " << convertToString(report) << " should be "
                 << (expected ? "safe" : "unsafe") << endl;
-        }
-        };
+        }};
 
-    checkResult({ 86, 87, 88, 90, 92, 93, 93, 90 }, false, DIRECTION_UP);
-    checkResult({ 75, 79, 80, 82 }, true, DIRECTION_UP);
-    checkResult({ 43, 45, 46, 49, 51, 58, 61 }, false, DIRECTION_UP);
+    checkResult({ 86, 87, 88, 90, 92, 93, 93, 90 }, DIRECTION_UP, false);
+    checkResult({ 75, 79, 80, 82 }, DIRECTION_UP, true);
+    checkResult({ 43, 45, 46, 49, 51, 58, 61 }, DIRECTION_UP, false);
 }
