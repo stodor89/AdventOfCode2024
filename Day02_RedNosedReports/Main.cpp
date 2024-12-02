@@ -15,25 +15,25 @@ constexpr int DIRECTION_DOWN = -1;
 void printReport(const vector<int>& report, bool safe);
 void testIsSafelyChanging();
 
-bool isSafeDiff(int val1, int val2, int safetyMargin, int diffMult) {
+bool isSafeChange(int val1, int val2, int safetyMargin, int diffMult) {
     const int diff = (val2 - val1) * diffMult;
     return diff > 0 && diff <= safetyMargin;
 }
 
 bool isSafelyChanging(const vector<int>& report, int safetyMargin, int direction, bool allowBadValue) {
     for (int i = 1; i < report.size(); i++) {
-        if (!isSafeDiff(report[i - 1], report[i], safetyMargin, direction)) {
+        if (!isSafeChange(report[i - 1], report[i], safetyMargin, direction)) {
             if (!allowBadValue) {
                 return false;
             }
             // allow current (bad) value if prev-to-next is within safety margin
-            if ((i == report.size() - 1) || isSafeDiff(report[i - 1], report[i + 1], safetyMargin, direction)) {
+            if ((i == report.size() - 1) || isSafeChange(report[i - 1], report[i + 1], safetyMargin, direction)) {
                 allowBadValue = false;
                 i++;
                 continue;
             }
             // special case: allow first (bad) if current-to-next is within safety margin  
-            if ((i == 1) && isSafeDiff(report[i], report[i + 1], safetyMargin, direction)) {
+            if ((i == 1) && isSafeChange(report[i], report[i + 1], safetyMargin, direction)) {
                 allowBadValue = false;
                 continue;
             }
