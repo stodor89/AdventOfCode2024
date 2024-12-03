@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Day02_RedNosedReports", "Da
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utilities", "Utilities\Utilities.vcxitems", "{0483DEC1-E194-4DDA-9D32-47C64CAF9653}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Day03_MullItOver", "Day03_MullItOver\Day03_MullItOver.vcxproj", "{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,6 +35,14 @@ Global
 		{6BC96A4F-955B-48BC-BEC2-AC5292844325}.Release|x64.Build.0 = Release|x64
 		{6BC96A4F-955B-48BC-BEC2-AC5292844325}.Release|x86.ActiveCfg = Release|Win32
 		{6BC96A4F-955B-48BC-BEC2-AC5292844325}.Release|x86.Build.0 = Release|Win32
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Debug|x64.ActiveCfg = Debug|x64
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Debug|x64.Build.0 = Debug|x64
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Debug|x86.ActiveCfg = Debug|Win32
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Debug|x86.Build.0 = Debug|Win32
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Release|x64.ActiveCfg = Release|x64
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Release|x64.Build.0 = Release|x64
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Release|x86.ActiveCfg = Release|Win32
+		{9A2DBA34-A69F-45F3-83BD-B3E7333D27A7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +50,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Utilities\Utilities.vcxitems*{0483dec1-e194-4dda-9d32-47c64caf9653}*SharedItemsImports = 9
 		Utilities\Utilities.vcxitems*{6bc96a4f-955b-48bc-bec2-ac5292844325}*SharedItemsImports = 4
+		Utilities\Utilities.vcxitems*{9a2dba34-a69f-45f3-83bd-b3e7333d27a7}*SharedItemsImports = 4
 		Utilities\Utilities.vcxitems*{d0435947-771f-4dcf-9daa-27aaf48fba5b}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

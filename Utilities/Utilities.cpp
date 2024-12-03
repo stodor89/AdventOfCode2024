@@ -6,6 +6,19 @@
 
 using namespace std;
 
+bool stringToInt(const string& str, size_t pos, int& out, size_t& length) {
+    // Avoid dynamic allocations during substr
+    constexpr size_t MAX_INT_LENGTH = 11;
+
+    try {
+        out = stoi(str.substr(pos, MAX_INT_LENGTH), &length);
+    }
+    catch (...) {
+        return false;
+    }
+    return true;
+}
+
 string convertToString(const vector<int>& vec, const string& delimiter) {
     if (vec.empty()) {
         return "";
@@ -68,5 +81,16 @@ bool readColumnsFromFile(const string& filename, vector<vector<int>>& out) {
         }
     }
 
+    return true;
+}
+
+bool readStringFromFile(const std::string& filename, std::string& out) {
+    ifstream file(filename);
+    if (!file) {
+        cout << "Could not open " << filename << endl;
+        return false;
+    }
+
+    out = string(istreambuf_iterator<char>(file), istreambuf_iterator<char>());
     return true;
 }
